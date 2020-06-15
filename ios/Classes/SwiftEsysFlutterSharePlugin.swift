@@ -60,6 +60,22 @@ public class SwiftEsysFlutterSharePlugin: NSObject, FlutterPlugin {
         // set up activity view controller
         let activityViewController:UIActivityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         
+
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.copyToPasteboard,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.airDrop,
+            UIActivity.ActivityType(rawValue: "com.apple.reminders.RemindersEditorExtension"),
+            UIActivity.ActivityType(rawValue: "com.apple.mobilenotes.SharingExtension"),
+        ]
+        
+        if #available(iOS 9.0, *) {
+            activityViewController.excludedActivityTypes?.append(UIActivity.ActivityType.openInIBooks);
+        }
+        
         // present the view controller
         let controller = UIApplication.shared.keyWindow!.rootViewController as! FlutterViewController
         activityViewController.popoverPresentationController?.sourceView = controller.view
